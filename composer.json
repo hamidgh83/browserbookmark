@@ -1,6 +1,6 @@
 {
     "name": "hamidgh83/browserbookmark",
-    "description": "This library is to extract and pars differet browsers bookmarks.",
+    "description": "This library provides a service to extract and parse Netscape Bookmark files.",
     "type": "library",
     "require": {
         
