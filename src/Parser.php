@@ -23,7 +23,7 @@ class Parser implements ParserInterface
     protected $items;
 
 
-    public function __construct (Sanitizer $sanitizer, $options = [])
+    public function __construct(Sanitizer $sanitizer, $options = [])
     {
         $this->sanitizer = $sanitizer;
 
@@ -36,7 +36,7 @@ class Parser implements ParserInterface
         }
     }
 
-    public function readFile (string $filePath) 
+    public function readFile(string $filePath)
     {
         if (!is_file($filePath)) {
             // TODO throw exception
@@ -48,7 +48,7 @@ class Parser implements ParserInterface
         return $this;
     }
 
-    public function parse (): array
+    public function parse(): array
     {
         if (!$this->document) {
             throw new \InvalidArgumentException('There is no file content to be parsed. Make sure if a valid file has been provided.');
@@ -57,7 +57,7 @@ class Parser implements ParserInterface
         return $this->parseBookmarkString($this->document);
     }
 
-    protected function parseBookmarkString ($bookmarkString)
+    protected function parseBookmarkString($bookmarkString)
     {
         $i           = 0;
         $folderNames = [];
@@ -69,7 +69,6 @@ class Parser implements ParserInterface
                 $folderNames[] = $tag;
                 // $this->logger->debug('[#' . $line . '] Header found: ' . $tag);
                 continue;
-
             } elseif ($this->isMatch($content, ParserInterface::REGEX_HEADER_ENDED)) {
                 $tag = array_pop($folderNames);
                 // $this->logger->debug('[#' . $line . '] Header ended: ' . $tag);
@@ -103,7 +102,7 @@ class Parser implements ParserInterface
 
         if ($this->isMatch($content, ParserInterface::REGEX_SHORTCUT_URL, $m3)) {
             $items['uri'] = $m3[1];
-            // $this->logger->debug('[#' . $line . '] URL found: ' . $m3[1]);
+        // $this->logger->debug('[#' . $line . '] URL found: ' . $m3[1]);
         } else {
             $items['uri'] = '';
             // $this->logger->debug('[#' . $line . '] Empty URL');
@@ -111,7 +110,7 @@ class Parser implements ParserInterface
 
         if ($this->isMatch($content, ParserInterface::REGEX_SHORTCUT_TITLE, $m4)) {
             $items['title'] = $m4[1];
-            // $this->logger->debug('[#' . $line . '] Title found: ' . $m4[1]);
+        // $this->logger->debug('[#' . $line . '] Title found: ' . $m4[1]);
         } else {
             $items['title'] = 'untitled';
             // $this->logger->debug('[#' . $line . '] Empty title');
@@ -119,10 +118,10 @@ class Parser implements ParserInterface
 
         if ($this->isMatch($content, ParserInterface::REGEX_DESCRIPTION, $m5)) {
             $items['note'] = $m5[2];
-            // $this->logger->debug('[#' . $line . '] Content found: ' . substr($m5[2], 0, 50) . '...');
+        // $this->logger->debug('[#' . $line . '] Content found: ' . substr($m5[2], 0, 50) . '...');
         } elseif ($this->isMatch($content, ParserInterface::REGEX_CONTENT, $m6)) {
             $items['note'] = str_replace('<br>', "\n", $m6[1]);
-            // $this->logger->debug('[#' . $line . '] Content found: ' . substr($m6[1], 0, 50) . '...');
+        // $this->logger->debug('[#' . $line . '] Content found: ' . substr($m6[1], 0, 50) . '...');
         } else {
             $items['note'] = '';
             // $this->logger->debug('[#' . $line . '] Empty content');
@@ -131,7 +130,7 @@ class Parser implements ParserInterface
         return $items;
     }
 
-    private function extractTags ($content, $nestedTags = []): array
+    private function extractTags($content, $nestedTags = []): array
     {
         $tags = [];
         if ($this->defaultTags) {
@@ -149,11 +148,11 @@ class Parser implements ParserInterface
         return $tags;
     }
 
-    private function extractDate ($content)
+    private function extractDate($content)
     {
         if ($this->isMatch($content, ParserInterface::REGEX_DATE, $m8)) {
             return $this->parseDate($m8[1]);
-        } 
+        }
 
         return time();
     }
@@ -166,7 +165,7 @@ class Parser implements ParserInterface
                 $date = $this->normalizeDate($date);
             }
             return strtotime('@'.$date);
-        } else if (strtotime($date)) {
+        } elseif (strtotime($date)) {
             // Attempt to parse a known compound date/time format
             return strtotime($date);
         }
@@ -175,7 +174,8 @@ class Parser implements ParserInterface
         return time();
     }
 
-    private function normalizeDate($epoch) {
+    private function normalizeDate($epoch)
+    {
         $date = new \DateTime('@'.$epoch);
         $maxDate = new \DateTime('+'.$this->dateRange);
 
@@ -187,18 +187,18 @@ class Parser implements ParserInterface
         return $date->getTimestamp();
     }
 
-    private function extractVisibility ($content)
+    private function extractVisibility($content)
     {
         if ($this->isMatch($content, ParserInterface::REGEX_VISIBILITY_PUBLIC, $m9)) {
             return $this->parseBoolean($m9[2], false) ? 1 : 0;
         } elseif ($this->isMatch($content, ParserInterface::REGEX_VISIBILITY_PRIVATE, $m10)) {
             return $this->parseBoolean($m10[2], true) ? 0 : 1;
-        } 
+        }
           
         return $this->defaultPub;
     }
 
-    protected function isMatch ($subject, $pattern, &$match = null)
+    protected function isMatch($subject, $pattern, &$match = null)
     {
         return preg_match($pattern, $subject, $match);
     }

@@ -4,7 +4,7 @@ namespace ZendLib\NetscapeBookmark;
 
 class Sanitizer implements SanitizerInterface
 {
-    public function sanitize ($str)
+    public function sanitize($str)
     {
         // trim comments
         $sanitized = preg_replace('@<!--.*?-->@mis', '', $str);
@@ -25,7 +25,7 @@ class Sanitizer implements SanitizerInterface
         // line feeds are converted to <br>
         $sanitized = preg_replace_callback(
             '@<DD>(.*?)(</?(:?DT|DD|DL))@mis',
-            function($match) {
+            function ($match) {
                 return '<DD>'.str_replace("\n", '<br>', trim($match[1])).PHP_EOL. $match[2];
             },
             $sanitized
@@ -35,7 +35,7 @@ class Sanitizer implements SanitizerInterface
         // line feeds are converted to <br>
         $sanitized = preg_replace_callback(
             '@<A(.*?)</A>@mis',
-            function($match) {
+            function ($match) {
                 return '<A'.str_replace("\n", '<br>', trim($match[1])).'</A>';
             },
             $sanitized
@@ -49,7 +49,7 @@ class Sanitizer implements SanitizerInterface
         return $sanitized;
     }
 
-    public function sanitizeTagString ($tagString)
+    public function sanitizeTagString($tagString)
     {
         $tags = explode(' ', strtolower($tagString));
 

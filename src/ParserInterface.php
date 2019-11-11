@@ -15,7 +15,7 @@ interface ParserInterface
     const REGEX_VISIBILITY_PUBLIC  = '/(public|published|pub)="(.*?)"/i';
     const REGEX_VISIBILITY_PRIVATE = '/(private|shared)="(.*?)"/i';
 
-    public function readFile (string $filePath);
+    public function readFile(string $filePath);
 
-    public function parse (): array;
+    public function parse(): array;
 }
