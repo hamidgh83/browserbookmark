@@ -1,0 +1,21 @@
+{
+    "name": "hamidgh83/browserbookmark",
+    "description": "This library is to extract and pars differet browsers bookmarks.",
+    "type": "library",
+    "require": {
+        
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hamid Ghorashi",
+            "email": "h.ghorashi@gmail.com"
+        }
+    ],
+    "autoload" : {
+        "psr-4" : {
+            "ZendLib\\NetscapeBookmar\\" : "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
