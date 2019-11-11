@@ -1,10 +1,10 @@
 <?php
 
-namespace ZendLib\NetscapeBookmar;
+namespace ZendLib\NetscapeBookmark;
 
 class Sanitizer implements SanitizerInterface
 {
-    public function sanitizer ($str)
+    public function sanitize ($str)
     {
         // trim comments
         $sanitized = preg_replace('@<!--.*?-->@mis', '', $str);

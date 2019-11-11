@@ -1,5 +1,5 @@
 <?php
-namespace ZendLib\NetscapeBookmar;
+namespace ZendLib\NetscapeBookmark;
 
 interface ParserInterface
 {

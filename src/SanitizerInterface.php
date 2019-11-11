@@ -1,9 +1,9 @@
 <?php
-namespace ZendLib\NetscapeBookmar;
+namespace ZendLib\NetscapeBookmark;
 
 interface SanitizerInterface
 {
-    public function sanitizer ($str);
+    public function sanitize ($str);
 
     public function sanitizeTagString ($tagString);
 }

@@ -1,8 +1,6 @@
 <?php
 
-namespace ZendLib\NetscapeBookmar;
-
-use ParserInterface;
+namespace ZendLib\NetscapeBookmark;
 
 class Parser implements ParserInterface
 {
@@ -45,7 +43,9 @@ class Parser implements ParserInterface
         }
 
         $this->filePath = $filePath;
-        $this->document = file_get_contents($$filePath);
+        $this->document = file_get_contents($filePath);
+
+        return $this;
     }
 
     public function parse (): array
@@ -79,8 +79,7 @@ class Parser implements ParserInterface
             /* A Link found! Extract link properties. */
             if ($this->isMatch($content, ParserInterface::REGEX_SHORTCUT_STARTED, $m2)) {
                 $this->items[$i]         = $this->extractLinkProperties($content);
-                $tags                    = $this->extractTags($content, $folderNames);
-                $this->items[$i]['tags'] = implode(',', $tags);
+                $this->items[$i]['tags'] = $this->extractTags($content, $folderNames);
                 // $this->logger->debug('[#' . $line . '] Tag list: '. $this->items[$i]['tags']);
 
                 $this->items[$i]['time'] = $this->extractDate($content);
@@ -132,7 +131,7 @@ class Parser implements ParserInterface
         return $items;
     }
 
-    private function extractTags ($content, $nestedTags = [])
+    private function extractTags ($content, $nestedTags = []): array
     {
         $tags = [];
         if ($this->defaultTags) {
@@ -168,10 +167,11 @@ class Parser implements ParserInterface
             }
             return strtotime('@'.$date);
         } else if (strtotime($date)) {
-            // attempt to parse a known compound date/time format
+            // Attempt to parse a known compound date/time format
             return strtotime($date);
         }
-        // current date & time
+
+        // Current date & time
         return time();
     }
 

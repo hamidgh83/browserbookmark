@@ -14,7 +14,7 @@
     ],
     "autoload" : {
         "psr-4" : {
-            "ZendLib\\NetscapeBookmar\\" : "src/"
+            "ZendLib\\NetscapeBookmark\\" : "src/"
         }
     },
     "minimum-stability": "stable"
