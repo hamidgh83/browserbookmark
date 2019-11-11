@@ -96,7 +96,7 @@ class Parser implements ParserInterface
         return $this->items;
     }
 
-    private function extractLinkProperties($content)
+    private function extractLinkProperties($content): array
     {
         $items = [];
 
@@ -198,7 +198,7 @@ class Parser implements ParserInterface
         return $this->defaultPub;
     }
 
-    protected function isMatch($subject, $pattern, &$match = null)
+    protected function isMatch($subject, $pattern, &$match = null): bool
     {
         return preg_match($pattern, $subject, $match);
     }
